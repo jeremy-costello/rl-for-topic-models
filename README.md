@@ -55,5 +55,6 @@ from https://github.com/smutahoang/ntm \
 put \*_preprocessed_data.txt in data/raw/texts
 
 Our Paper:
-20 Newsgroups
+
+20 Newsgroups \
 python data/dataset.py 20ng --mwl 3
