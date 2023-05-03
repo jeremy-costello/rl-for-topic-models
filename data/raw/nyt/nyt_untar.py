@@ -1,16 +1,28 @@
 import os
+import glob
+import tarfile
+
 from bs4 import BeautifulSoup
 
 
 def main():
-    root = 'data/raw/nyt/nyt_corpus/data'
-    output_file = 'data/raw/nyt/nyt_output.txt'
+    root = 'data/raw/nyt'
+    output_file = 'nyt_output.txt'
 
-    with open(output_file, 'w') as f:
+    with tarfile.open(f'{root}/nyt_corpus_LDC2008T19.tgz', 'r:gz') as tar:
+        tar.extractall(path=root)
+
+    for file in glob.glob(f'{root}/nyt_corpus/**/*.tgz', recursive=True):
+        with tarfile.open(file, 'r:gz') as tar:
+            tar.extractall(path='/'.join(file.replace('\\', '/').split('/')[:-1]))
+
+    output_path = f'{root}/{output_file}'
+
+    with open(output_path, 'w') as f:
         f.write('')
 
-    with open(output_file, 'a') as f:
-        for path, subdirs, files in os.walk(root):
+    with open(output_path, 'a') as f:
+        for path, subdirs, files in os.walk(f'{root}/nyt_corpus/data'):
             for name in files:
                 if name.split('.')[-1] == 'xml':
                     full_path = os.path.join(path, name)

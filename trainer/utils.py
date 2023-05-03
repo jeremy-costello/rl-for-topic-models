@@ -119,7 +119,7 @@ class ExperimentTrainConfig:
         self.max_epochs = d['max_epochs']
         self.grad_norm_clip = d['gradient_clip']
         self.lr_decay = d['lr_decay']
-        self.ckpt_path = 'ckpt'
+        self.ckpt_path = 'model/ckpt'
         self.experiment_name = experiment_name
         self.experiment_num = i
         self.check_experiment_path = False
