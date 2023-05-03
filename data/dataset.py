@@ -1,4 +1,5 @@
 import json
+import nltk
 import pickle
 import random
 import string
@@ -15,10 +16,16 @@ from torch import FloatTensor
 from torch.utils.data.dataset import MapDataPipe
 
 
-def main(dataset, function_dict):
-
-
-    function_dict[dataset]()
+def main(dataset, function_dict, min_word_length):
+    try:
+        nltk.data.find('corpora/stopwords')
+    except LookupError:
+        nltk.download('stopwords')
+    
+    if dataset == '20ng':
+        function_dict[dataset](min_word_length)
+    else:
+        function_dict[dataset]()
 
 
 def tweets2011():
@@ -33,7 +40,7 @@ def tweets2011():
                                    do_preprocess=False,
                                    test_ratio=None,
                                    stopwords=None,
-                                   batch_size=128)
+                                   batch_size=32)
     create_dataset.save_data_file()
 
 
@@ -49,7 +56,7 @@ def stackoverflow():
                                    do_preprocess=False,
                                    test_ratio=None,
                                    stopwords=None,
-                                   batch_size=128)
+                                   batch_size=32)
     create_dataset.save_data_file()
 
 
@@ -65,7 +72,7 @@ def googlenews():
                                    do_preprocess=False,
                                    test_ratio=None,
                                    stopwords=None,
-                                   batch_size=128)
+                                   batch_size=32)
     create_dataset.save_data_file()
 
 
@@ -81,7 +88,7 @@ def nytcorpus():
                                    do_preprocess=True,
                                    test_ratio=None,
                                    stopwords=None,
-                                   batch_size=128)
+                                   batch_size=32)
     create_dataset.save_data_file()
 
 
@@ -101,7 +108,7 @@ def contrastive_data():
                                        min_word_length=2,
                                        stopwords='english',
                                        min_df=1,
-                                       batch_size=128)
+                                       batch_size=32)
         create_dataset.save_data_file()
 
 
@@ -130,16 +137,20 @@ def dbpediasample():
                                    test_file=None,
                                    save_name=save_name,
                                    vocabulary_size=2000,
-                                   sbert_models=[],
+                                   sbert_models=['all-MiniLM-L6-v2'],
                                    do_preprocess=True,
                                    test_ratio=None,
                                    stopwords='english',
-                                   batch_size=128)
+                                   batch_size=32)
     create_dataset.save_data_file()
 
 
-def twentynewsgroups():
-    save_name = 'data/pickles/20newsgroups_mwl3'
+def twentynewsgroups(min_word_length):
+    if min_word_length == 1:
+        save_name = 'data/pickles/20newsgroups'
+    else:
+        save_name = f'data/pickles/20newsgroups_mwl{min_word_length}'
+
     create_dataset = CreateDataset(data_type='sklearn',
                                    train_file='20newsgroups',
                                    test_file='20newsgroups',
@@ -148,9 +159,9 @@ def twentynewsgroups():
                                    sbert_models=['all-MiniLM-L6-v2'],
                                    do_preprocess=True,
                                    test_ratio=None,
-                                   min_word_length=3,
+                                   min_word_length=min_word_length,
                                    stopwords='english',
-                                   batch_size=128)
+                                   batch_size=32)
     create_dataset.save_data_file()
 
 
@@ -227,12 +238,17 @@ class CreateDataset:
             assert self.train_file in ['20ng', 'imdb', 'wiki']
             assert self.train_file == self.test_file or self.test_file is None
 
-            with open(f'data/raw/clntm/scholar_data/data/{self.train_file}/{self.train_file}_all/train.jsonlist') as f:
+            if self.train_file == '20ng':
+                subfolder = f'{self.train_file}/{self.train_file}_all'
+            else:
+                subfolder = self.train_file
+
+            with open(f'data/raw/clntm/scholar_data/data/{subfolder}/train.jsonlist') as f:
                 train_list = f.readlines()
             train_documents = [json.loads(doc)['text'] for doc in train_list]
 
             if self.test_file is not None:
-                with open(f'data/raw/clntm/scholar_data/data/{self.train_file}/{self.train_file}_all/test.jsonlist') as f:
+                with open(f'data/raw/clntm/scholar_data/data/{subfolder}/test.jsonlist') as f:
                     test_list = f.readlines()
                 test_documents = [json.loads(doc)['text'] for doc in test_list]
             else:
@@ -485,18 +501,19 @@ if __name__ == '__main__':
         'tweets2011': tweets2011,
         'stackoverflow': stackoverflow,
         'googlenews': googlenews,
+        'wiki20k': dbpediasample,
+        '20ng': twentynewsgroups,
         'nytcorpus': nytcorpus,
         'contrastive': contrastive_data,
-        'ntm': ntm_data,
-        'wiki20k': dbpediasample,
-        '20ng': twentynewsgroups
+        'ntm': ntm_data
     }
     
     my_parser = argparse.ArgumentParser()
 
     # add choice and function for custom data set
     my_parser.add_argument('dataset', type=str, choices=list(function_dict.keys()), help='Data set to create pickle for.')
+    my_parser.add_argument('--mwl', type=int, default=1, help='Minimum word length to keep for bag-of-words embeddings.')
 
     args = my_parser.parse_args()
 
-    main(args.dataset, function_dict)
+    main(args.dataset, function_dict, args.mwl)

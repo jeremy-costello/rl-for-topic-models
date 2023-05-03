@@ -14,7 +14,7 @@ from trainer.utils import ExperimentTrainConfig, ExperimentModelConfig, get_save
 
 
 def main():
-    experiment_name = 'ntm_w2e_test'
+    experiment_name = '20newsgroups_mwl3'
     meta_seed = None
     num_seeds = 1
 
@@ -34,10 +34,10 @@ def main():
         # constant
         'num_gpus': [1],
         'num_cpus': [0],
-        'max_epochs': [1000],
+        'max_epochs': [10],
         'frozen_embeddings': [True],
         # data
-        'data_set': ['data/ntm_w2e_3648vocab'],
+        'data_set': ['data/pickles/20newsgroups_mwl3'],
         'vocab_size': [2000],
         'input_type': ['bert'],  # bow, bert
         'embedding_dict': [
@@ -49,7 +49,7 @@ def main():
             }
         ],
         # model
-        'num_topics': [30],
+        'num_topics': [20],
         'inference_dropout': [0.2],
         'theta_dropout': [0.0],
         'hidden_layers': [(128, 128)],

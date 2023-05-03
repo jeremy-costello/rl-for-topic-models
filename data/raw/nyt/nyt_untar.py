@@ -8,14 +8,14 @@ from bs4 import BeautifulSoup
 def main():
     root = 'data/raw/nyt'
     output_file = 'nyt_output.txt'
-
+    
     with tarfile.open(f'{root}/nyt_corpus_LDC2008T19.tgz', 'r:gz') as tar:
         tar.extractall(path=root)
 
     for file in glob.glob(f'{root}/nyt_corpus/**/*.tgz', recursive=True):
         with tarfile.open(file, 'r:gz') as tar:
             tar.extractall(path='/'.join(file.replace('\\', '/').split('/')[:-1]))
-
+    
     output_path = f'{root}/{output_file}'
 
     with open(output_path, 'w') as f:
