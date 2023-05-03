@@ -58,3 +58,6 @@ Our Paper:
 
 20 Newsgroups \
 python data/dataset.py 20ng --mwl 3
+
+
+TEST
