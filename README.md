@@ -1,63 +1,77 @@
 # rl-for-topic-models
-Reinforcement Learning for Topic Models
 
-***temp***
+## Reinforcement Learning for Topic Models
 
-INSTALL \
-python 3.9 \
-conda install pytorch==1.11.0 torchvision==0.12.0 torchaudio==0.11.0 cudatoolkit=11.3 -c pytorch \
+Code accompanying the forthcoming paper "Reinforcement Learning for Topic Models" in the Findings of the Association for Computational Linguistics: ACL 2023.
+
+## Table of Contents
+
+- [Install](#install)
+- [Training](#training)
+- [Data](#data)
+- [Experiments](#experiments)
+- [Evaluations](#evaluations)
+
+## INSTALL
+```python
+conda create -n rl-for-topic-models python=3.9
+conda install pytorch==1.11.0 torchvision==0.12.0 torchaudio==0.11.0 cudatoolkit=11.3 -c pytorch
 pip install -r requirements.txt
+```
 
-DATASETS
+## TRAINING
 
-Pre-training is a Hot Topic:
+## DATA
 
-Tweets 2011 \
-from https://trec.nist.gov/data/tweets \
-put Tweet.txt in the data/raw/texts folder \
-python data/dataset.py tweets2011 \
-if you need help, email me
+### Pre-training is a Hot Topic
 
-Stack Overflow \
-from https://github.com/qiang2100/STTM \
-put StackOverflow.txt in the data/raw/texts folder \
-python data/dataset.py stackoverflow
+#### Tweets 2011
+- get raw data from https://trec.nist.gov/data/tweets
+- put processed ```Tweet.txt``` in the ```data/raw/texts``` folder
+- run ```python data/dataset.py tweets2011```
 
-Google News \
-from https://github.com/qiang2100/STTM \
-put GoogleNews.txt in the data/raw/texts folder \
-python data/dataset.py googlenews
+#### Stack Overflow
+- get data from https://github.com/qiang2100/STTM
+- put ```StackOverflow.txt``` in the ```data/raw/texts``` folder
+- run ```python data/dataset.py stackoverflow```
 
-Wiki 20k \
-from https://github.com/vinid/data \
-put dbpedia_sample_abstract_20k_unprep.txt in the data/raw/texts folder \
-python data/dataset.py wiki20k
+#### Google News
+- get data from https://github.com/qiang2100/STTM
+- put ```GoogleNews.txt``` in the ```data/raw/texts``` folder
+- run ```python data/dataset.py googlenews```
 
-20 Newsgroups \
-python data/dataset.py 20ng
+#### Wiki 20k
+- get data from https://github.com/vinid/data
+- put ```dbpedia_sample_abstract_20k_unprep.txt``` in the ```data/raw/texts folder```
+- run ```python data/dataset.py wiki20k```
 
-Other:
+#### 20 Newsgroups
+- run ```python data/dataset.py 20ng```
 
-NYT \
-from https://catalog.ldc.upenn.edu/LDC2008T19 \
-put tarball in data/raw/nyt \
-python data/raw/nyt/nyt_untar.py \
-python data/dataset.py nytcorpus
+### Other Comparison Papers
 
-CLNTM \
-from https://github.com/nguyentthong/CLNTM \
-put tarball in data/raw/clntm \
-python data/raw/clntm/scholar_untar.py \
-python data/dataset.py contrastive
+#### New York Times
+- get raw data from https://catalog.ldc.upenn.edu/LDC2008T19
+- put tarball in ```data/raw/nyt```
+- run ```python data/raw/nyt/nyt_untar.py```
+- run ```python data/dataset.py nytcorpus```
 
-NTM \
-from https://github.com/smutahoang/ntm \
-put \*_preprocessed_data.txt in data/raw/texts
+#### Contrastive Learning for Neural Topic Model
+- get raw data from https://github.com/nguyentthong/CLNTM
+- put tarball in ```data/raw/clntm```
+- run ```python data/raw/clntm/scholar_untar.py```
+- run ```python data/dataset.py contrastive```
 
-Our Paper:
+#### Benchmarking Neural Topic Models
+- get data from https://github.com/smutahoang/ntm
+- put ```*_preprocessed_data.txt``` in ```data/raw/texts```
 
-20 Newsgroups \
-python data/dataset.py 20ng --mwl 3
+### Our Experiments
 
+#### 20 Newsgroups
+- run ```python data/dataset.py 20ng --mwl 3```
 
-TEST
+## EXPERIMENTS
+
+## EVALUATIONS
+
