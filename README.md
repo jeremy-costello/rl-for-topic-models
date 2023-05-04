@@ -53,6 +53,7 @@ pip install -r requirements.txt
 #### New York Times
 - get raw data from https://catalog.ldc.upenn.edu/LDC2008T19
 - put tarball in ```data/raw/nyt```
+- run ```pip install beautifulsoup4 lxml```
 - run ```python data/raw/nyt/nyt_untar.py```
 - run ```python data/dataset.py nytcorpus```
 
