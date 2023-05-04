@@ -16,7 +16,7 @@ from torch import FloatTensor
 from torch.utils.data.dataset import MapDataPipe
 
 
-def main(dataset, function_dict, min_word_length):
+def main(dataset, function_dict, min_word_length, custom_data_dict):
     try:
         nltk.data.find('corpora/stopwords')
     except LookupError:
@@ -24,8 +24,28 @@ def main(dataset, function_dict, min_word_length):
     
     if dataset == '20ng':
         function_dict[dataset](min_word_length)
+    elif dataset == 'custom':
+        function_dict[dataset](min_word_length, custom_data_dict)
     else:
         function_dict[dataset]()
+
+
+def custom_data(min_word_length, custom_data_dict):
+    create_dataset = CreateDataset(data_type=custom_data_dict['data_type'],
+                                   train_file=custom_data_dict['train_file'],
+                                   test_file=custom_data_dict['test_file'],
+                                   save_name=custom_data_dict['save_name'],
+                                   vocabulary_size=custom_data_dict['vocabulary_size'],
+                                   sbert_models=custom_data_dict['sbert_models'],
+                                   do_preprocess=custom_data_dict['do_preprocess'],
+                                   test_ratio=custom_data_dict['test_ratio'],
+                                   min_word_length=min_word_length,
+                                   stopwords=custom_data_dict['stopwords'],
+                                   max_df=custom_data_dict['max_df'],
+                                   min_df=custom_data_dict['min_df'],
+                                   remove_numbers=custom_data_dict['remove_numbers'],
+                                   batch_size=custom_data_dict['batch_size'])
+    create_dataset.save_data_file()
 
 
 def tweets2011():
@@ -495,6 +515,12 @@ class ThawedMapDataPipe(MapDataPipe):
         return item
 
 
+def type_int_or_float(value):
+    if not isinstance(value, int) and not isinstance(value, float):
+        raise argparse.ArgumentTypeError('Input must be an int or a float.')
+    return value
+
+
 if __name__ == '__main__':
 
     function_dict = {
@@ -505,7 +531,8 @@ if __name__ == '__main__':
         '20ng': twentynewsgroups,
         'nytcorpus': nytcorpus,
         'contrastive': contrastive_data,
-        'ntm': ntm_data
+        'ntm': ntm_data,
+        'custom': custom_data
     }
     
     my_parser = argparse.ArgumentParser()
@@ -513,7 +540,47 @@ if __name__ == '__main__':
     # add choice and function for custom data set
     my_parser.add_argument('dataset', type=str, choices=list(function_dict.keys()), help='Data set to create pickle for.')
     my_parser.add_argument('--mwl', type=int, default=1, help='Minimum word length to keep for bag-of-words embeddings.')
+    my_parser.add_argument('--train_file', type=str, default=None, help='Training file.')
+    my_parser.add_argument('--test_file', type=str, default=None, help='Test file.')
+    my_parser.add_argument('--save_name', type=str, default=None, help='Name for saving the data pickle.')
+    my_parser.add_argument('--vocab_size', type=int, default=999999, help='Vocabulary size.')
+    my_parser.add_argument('--sbert_model', type=str, default=None, help='SBERT model.')
+    my_parser.add_argument('--preprocess', type=bool, action='store_true', help='Preprocess the data.')
+    my_parser.add_argument('--test_ratio', type=str, default=None, help='Test set ratio.')
+    my_parser.add_argument('--stopwords', type=str, default=None, help='Stopwords to use (e.g. "english").')
+    my_parser.add_argument('--max_df', type=type_int_or_float, default=1.0, help='Ignore terms with higher document frequency.')
+    my_parser.add_argument('--min_df', type=type_int_or_float, default=1, help='Ignore terms with lower document frequency.')
+    my_parser.add_argument('--keep_numbers', type=bool, action='store_true', help='Keep numbers in the data')
+    my_parser.add_argument('--batch_size', type=int, default=32, help='Batch size for generating SBERT embeddings.')
+
 
     args = my_parser.parse_args()
 
-    main(args.dataset, function_dict, args.mwl)
+    if args.dataset == 'custom':
+        if args.train_file is None and args.save_name is None:
+            raise ValueError('Please provide train_file and save_name in your custom arguments.')
+        elif args.train_file is None:
+            raise ValueError('Please provide train_file in your custom arguments.')
+        elif args.save_name is None:
+            raise ValueError('Please provide save_name in your custom arguments.')
+        
+        sbert_models = [] if args.sbert_model is None else [args.sbert_model]
+
+        custom_data_dict = {
+            'train_file': args.train_file,
+            'test_file': args.test_file,
+            'save_name': args.save_name,
+            'vocabulary_size': args.vocab_size,
+            'sbert_models': sbert_models,
+            'do_preprocess': args.preprocess,
+            'test_ratio': args.test_ratio,
+            'stopwords': args.stopwords,
+            'max_df': args.max_df,
+            'min_df': args.min_df,
+            'remove_numbers': not args.keep_numbers,
+            'batch_size': args.batch_sze
+        }
+    else:
+        custom_data_dict = None
+
+    main(args.dataset, function_dict, args.mwl, custom_data_dict)

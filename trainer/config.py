@@ -28,11 +28,11 @@ class TrainConfig:
         self.deterministic_dataloader = False
         self.seed = 0
         # training
-        self.max_epochs = 1000
+        self.max_epochs = 100
         self.grad_norm_clip = 1.0
         self.lr_decay = False
-        self.ckpt_path = 'ckpt'
-        self.experiment_name = 'ntm_w2e_vae_bow'
+        self.ckpt_path = 'model/ckpt'
+        self.experiment_name = '20newsgroups_mwl3'
         self.experiment_num = 0
         self.check_experiment_path = True
         self.save_outputs = True

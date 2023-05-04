@@ -3,7 +3,7 @@ import os
 import torch
 import torch.nn as nn
 
-import trainer.parameters as parameters
+import trainer.config as config
 from data.dataset import get_dataset
 
 
@@ -41,7 +41,7 @@ def configure_optimizers(model, train_config):
         {'params': [param_dict[pn] for pn in sorted(list(no_decay))], 'weight_decay': 0.0}
     ]
 
-    optimizer = parameters.get_optimizer(optim_groups, train_config)
+    optimizer = config.get_optimizer(optim_groups, train_config)
     return optimizer
 
 

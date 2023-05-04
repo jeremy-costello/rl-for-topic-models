@@ -16,7 +16,7 @@ class NetworkConfigs:
         self.n_components = 20  # number of topics
         # decoder network
         self.input_size = 2000  # vocabulary size
-        self.input_type = 'bow'
+        self.input_type = 'bert'
         self.decoder_dropout = 0.2  # policy / theta dropout
         self.initialization = 'normal'
         self.normalization = 'layer'
@@ -42,7 +42,7 @@ class NetworkConfigs:
         self.entropy_mult = 0.0
         self.topk = [10]
         self.sparse_corpus_bow = None
-        self.pickle_name = 'data/ntm_w2e_3648vocab'
+        self.pickle_name = 'data/pickles/20newsgroups_mwl3'
         self.get_sparse_corpus_bow()
 
     def get_sparse_corpus_bow(self):
