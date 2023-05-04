@@ -16,7 +16,7 @@ for file in os.scandir(result_location):
     with open(file.path, 'rb') as f:
         if file.is_file():
             filename, file_ext = os.path.splitext(file.name)
-            if file_ext == 'pkl':
+            if file_ext == '.pkl':
                 results = pickle.load(f)
                 coh = results['coherence']
                 coh_10 = [c[1] for c in coh]

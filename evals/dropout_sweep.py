@@ -9,7 +9,8 @@ my_parser.add_argument('experiment', type=int, help='Location of the experiment 
 
 args = my_parser.parse_args()
 
-df_location = f'{args.experiment}/average_metric_outputs.tsv'
+experiment_folder = args.experiment.replace('\\', '/')
+df_location = f'{experiment_folder}/average_metric_outputs.tsv'
 df = pd.read_csv(df_location, sep="\t")
 
 coherences = np.array(df['test_coherence'].tolist())

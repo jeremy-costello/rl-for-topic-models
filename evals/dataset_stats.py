@@ -3,17 +3,14 @@ import argparse
 import numpy as np
 
 
-decimals = 1
-
 my_parser = argparse.ArgumentParser()
 my_parser.add_argument('dataset', type=str, help='Location of the dataset folder to get stats for')
 my_parser.add_argument('--decimals', type=int, default=1, help='How many decimal places to report results to.')
 
 args = my_parser.parse_args()
+decimals = args.decimals
 
-dataset_name = args.dataset
-
-with open(f'data/{dataset_name}.pkl', 'rb') as handle:
+with open(args.dataset, 'rb') as handle:
     dataset_save_dict = pickle.load(handle)
 
 vocab_length = len(dataset_save_dict['vocabulary']['id2token'])

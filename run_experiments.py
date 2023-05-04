@@ -34,7 +34,7 @@ def main():
         # constant
         'num_gpus': [1],
         'num_cpus': [0],
-        'max_epochs': [10],
+        'max_epochs': [1000],
         'frozen_embeddings': [True],
         # data
         'data_set': ['data/pickles/20newsgroups_mwl3'],

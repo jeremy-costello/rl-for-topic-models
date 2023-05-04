@@ -14,7 +14,7 @@ my_parser.add_argument('num_exps', type=int, help='Number of experiments to aver
 my_parser.add_argument('num_seeds', type=int, help='Number of seeds for each experiment.')
 my_parser.add_argument('data', type=str, help='Location of the data pickle file.')
 my_parser.add_argument('experiment', type=str, help='Location of the experiment directory.')
-my_parser.add_argument('--word2vec', type=str, default='evals/gensim-data/word2vec-google-news-300', help='Location of the experiment directory.')
+my_parser.add_argument('--word2vec', type=str, default=None, help='Location of the "word2vec-google-news-300" model.')
 my_parser.add_argument('--diversity', type=int, default=0, help='Top-k for calculating diversity (if different from coherence).')
 
 args = my_parser.parse_args()
@@ -27,8 +27,8 @@ else:
 
 num_experiments = args.num_exps
 num_seeds = args.num_seeds
-data_pickle = args.data
-experiment_dir = args.experiment
+data_pickle = args.data.rstrip('.pkl').replace('\\', '/')
+experiment_dir = args.experiment.replace('\\', '/')
 
 word2vec_path = args.word2vec
 coherence_embeddings = CoherenceWordEmbeddings(word2vec_path, binary=True)

@@ -6,13 +6,13 @@ my_parser = argparse.ArgumentParser()
 
 my_parser.add_argument('topk', type=int, help='Top-k topic words for calculating coherence and diversity.')
 my_parser.add_argument('data', type=str, help='Location of the data pickle file.')
-my_parser.add_argument('plotting_array', type=str, help='Location of the experiment directory.')
+my_parser.add_argument('plotting_array', type=str, help='Location of the specific experiment plotting array.')
 
 args = my_parser.parse_args()
 
 topk = args.topk
-pickle_name = args.data
-experiment_name = args.plotting_array
+pickle_name = args.data.rstrip('.pkl').replace('\\', '/')
+experiment_name = args.plotting_array.rstrip('.pkl').replace('\\', '/')
 
 topics = get_topic_words_from_files(pickle_name, experiment_name, topk)
 
