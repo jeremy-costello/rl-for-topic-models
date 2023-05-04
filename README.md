@@ -79,7 +79,7 @@ pip install -r requirements.txt
 ### Custom Data
 
 - run ```python data/dataset.py custom --train_file /path/to/train/file --save_name /path/to/save/name```
-- other arguments can be found at the bottom of ```data/dataset.py```
+  - other arguments can be found at the bottom of ```data/dataset.py```
 
 ## EXPERIMENTS
 
