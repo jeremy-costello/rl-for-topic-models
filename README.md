@@ -21,6 +21,10 @@ pip install -r requirements.txt
 
 ## TRAINING
 
+- update the configs in ```model/decoder_network.py``` and ```trainer/config.py``` with your training settings.
+- run ```python train.py /path/to/data/pickle```
+  - add ```--test``` if your data has a test subset
+
 ## DATA
 
 ### Pre-training is a Hot Topic
@@ -71,6 +75,11 @@ pip install -r requirements.txt
 
 #### 20 Newsgroups
 - run ```python data/dataset.py 20ng --mwl 3```
+
+### Custom Data
+
+- run ```python data/dataset.py custom --train_file /path/to/train/file --save_name /path/to/save/name```
+- other arguments can be found at the bottom of ```data/dataset.py```
 
 ## EXPERIMENTS
 
