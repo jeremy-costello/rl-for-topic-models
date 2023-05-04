@@ -1,3 +1,5 @@
+import argparse
+
 from model.decoder_network import DecoderNetwork as Model
 from model.decoder_network import NetworkConfigs as ModelConfig
 from trainer.trainer import Trainer
@@ -5,10 +7,7 @@ from trainer.config import TrainConfig
 from data.dataset import get_datapipe
 
 
-def main():
-    # should move this into train config
-    pickle_name = 'data/pickles/20newsgroups_mwl3'
-
+def main(pickle_name, use_test_data):
     model_config = ModelConfig()
     assert pickle_name == model_config.pickle_name
     model = Model(model_config)
@@ -19,11 +18,14 @@ def main():
                                  hugface_model=model_config.hugface_model,
                                  max_length=model_config.max_length)
 
-    test_dataset = get_datapipe(pickle_name, 'test',
-                                 frozen_embeddings=model_config.frozen_embeddings,
-                                 sbert_model=model_config.sbert_model,
-                                 hugface_model=model_config.hugface_model,
-                                 max_length=model_config.max_length)
+    if use_test_data:
+        test_dataset = get_datapipe(pickle_name, 'test',
+                                    frozen_embeddings=model_config.frozen_embeddings,
+                                    sbert_model=model_config.sbert_model,
+                                    hugface_model=model_config.hugface_model,
+                                    max_length=model_config.max_length)
+    else:
+        test_dataset = None
 
     train_config = TrainConfig()
     trainer = Trainer(model=model,
@@ -35,4 +37,11 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    my_parser = argparse.ArgumentParser()
+
+    my_parser.add_argument('dataset', type=str, help='Data pickle file to train with.')
+    my_parser.add_argument('--test', type=bool, action='store_true', help='Use a test/validation data subset.')
+
+    args = my_parser.parse_args()
+
+    main(args.dataset, args.test)
