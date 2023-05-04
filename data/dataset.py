@@ -537,7 +537,6 @@ if __name__ == '__main__':
     
     my_parser = argparse.ArgumentParser()
 
-    # add choice and function for custom data set
     my_parser.add_argument('dataset', type=str, choices=list(function_dict.keys()), help='Data set to create pickle for.')
     my_parser.add_argument('--mwl', type=int, default=1, help='Minimum word length to keep for bag-of-words embeddings.')
     my_parser.add_argument('--train_file', type=str, default=None, help='Training file.')

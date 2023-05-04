@@ -5,7 +5,7 @@ import numpy as np
 from tqdm import tqdm
 
 from evals.plotting import Outputs, save_training_outputs
-from trainer.parameters import get_scheduler, step_scheduler
+from trainer.config import get_scheduler, step_scheduler
 
 import torch
 import torch.distributed as dist
