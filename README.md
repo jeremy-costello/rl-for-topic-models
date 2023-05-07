@@ -85,7 +85,7 @@ pip install -r requirements.txt
 
 - update search_dict in ```run_experiments.py``` with your hyperparameter search values.
 - run ```python run_experiments.py experiment_name num_seeds --meta_seed meta_seed```
-  - meta seed will be randomly chosen from ```random.randint(0, 2 ** 32)``` if not included as parameter
+  - meta seed will be randomly chosen from ```random.randint(0, 2 ** 32)``` if not included as argument
 
 ## EVALUATIONS
 
