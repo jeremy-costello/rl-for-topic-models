@@ -83,5 +83,28 @@ pip install -r requirements.txt
 
 ## EXPERIMENTS
 
+- update search_dict in ```run_experiments.py``` with your hyperparameter search values.
+- run ```python run_experiments.py experiment_name num_seeds --meta_seed meta_seed```
+  - meta seed will be randomly chosen from ```random.randint(0, 2 ** 32)``` if not included as parameter
+
 ## EVALUATIONS
 
+### Compute Metrics
+- run ```python -m evals.compute_metrics topk num_experiments num_seeds /path/to/data/pickle /path/to/experiment```
+
+### Dataset Statistics
+- run ```python -m evals.dataset_stats /path/to/data/pickle```
+
+### Dropout Sweep
+- run experiment with hyperparameters from paper
+- run ```python -m evals.dropout_sweep /path/to/dropout/experiment```
+
+### Benchmarking Neural Topic Models Plot
+- run ```empirical_studies/examine_models.py``` from https://github.com/smutahoang/ntm with ```top_ks = [10]```
+- move the ```run.*.pkl``` files into the ```ntm_runs``` folder
+- run experiments with hyperparameters from paper
+  - call them ```ntm_20news_sweep```, ```ntm_snippets_sweep```, ```ntm_w2e_sweep```, and ```ntm_w2e_text_sweep```
+- run ```python -m evals.plot_ntm_results```
+
+### Saving Topic Words
+- run ```python -m evals.save_topic_words topk /path/to/data/pickle /path/to/experiment/experiment_num/seeds/seed_num/seed_num_plotting_arrays.pkl```
