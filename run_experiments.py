@@ -1,4 +1,5 @@
 import random
+import argparse
 import itertools
 import numpy as np
 
@@ -13,11 +14,7 @@ from model.decoder_network import DecoderNetwork as Model
 from trainer.utils import ExperimentTrainConfig, ExperimentModelConfig, get_save_num
 
 
-def main():
-    experiment_name = '20newsgroups_mwl3'
-    meta_seed = None
-    num_seeds = 1
-
+def main(experiment_name, meta_seed, num_seeds):
     if meta_seed is None:
         meta_seed = random.randint(0, 2 ** 32)
 
@@ -156,4 +153,12 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    my_parser = argparse.ArgumentParser()
+
+    my_parser.add_argument('experiment_name', type=str, help='Name to save the experiment as in the experiments folder.')
+    my_parser.add_argument('num_seeds', type=int, help='How many seeds to run for each hyperparameter combination.')
+    my_parser.add_argument('--meta_seed', type=int, default=None, help='Experiment meta seed.')
+
+    args = my_parser.parse_args()
+
+    main(args.experiment_name, args.meta_seed, args.num_seeds)

@@ -4,7 +4,7 @@ import numpy as np
 
 
 my_parser = argparse.ArgumentParser()
-my_parser.add_argument('dataset', type=str, help='Location of the dataset folder to get stats for')
+my_parser.add_argument('dataset', type=str, help='Location of the data pickle to get stats for')
 my_parser.add_argument('--decimals', type=int, default=1, help='How many decimal places to report results to.')
 
 args = my_parser.parse_args()
