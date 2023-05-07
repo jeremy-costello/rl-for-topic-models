@@ -1,4 +1,3 @@
-# https://github.com/maifeng/Examples_UMass-Coherence/blob/master/umass_coherence.py
 import math
 import torch
 import pickle
@@ -53,6 +52,7 @@ def calculate_perplexity_batch(bow, word_dist):
     return perplexity.item()
 
 
+# https://github.com/maifeng/Examples_UMass-Coherence/blob/master/umass_coherence.py
 class NPMICoherence:
     def __init__(self, sparse_corpus_bow, epsilon=0):
         self.sparse_corpus_bow = sparse_corpus_bow
