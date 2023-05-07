@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 
 my_parser = argparse.ArgumentParser()
-my_parser.add_argument('experiment', type=int, help='Location of the experiment directory.')
+my_parser.add_argument('experiment', type=str, help='Location of the experiment directory.')
 
 args = my_parser.parse_args()
 
