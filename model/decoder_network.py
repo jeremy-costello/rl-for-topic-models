@@ -26,7 +26,6 @@ class NetworkConfigs:
         self.theta_softmax = False
         # inference network
         self.frozen_embeddings = True
-        # other
         self.sbert_model = 'all-MiniLM-L6-v2'
         self.hugface_model = 'sentence-transformers/all-MiniLM-L6-v2'
         self.bert_size = 384
