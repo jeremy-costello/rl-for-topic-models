@@ -28,7 +28,7 @@ class TrainConfig:
         self.deterministic_dataloader = False
         self.seed = 0
         # training
-        self.max_epochs = 100
+        self.max_epochs = 10
         self.grad_norm_clip = 1.0
         self.lr_decay = False
         self.ckpt_path = 'model/ckpt'

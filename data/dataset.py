@@ -544,12 +544,12 @@ if __name__ == '__main__':
     my_parser.add_argument('--save_name', type=str, default=None, help='Name for saving the data pickle.')
     my_parser.add_argument('--vocab_size', type=int, default=999999, help='Vocabulary size.')
     my_parser.add_argument('--sbert_model', type=str, default=None, help='SBERT model.')
-    my_parser.add_argument('--preprocess', type=bool, action='store_true', help='Preprocess the data.')
+    my_parser.add_argument('--preprocess', action='store_true', help='Preprocess the data.')
     my_parser.add_argument('--test_ratio', type=str, default=None, help='Test set ratio.')
     my_parser.add_argument('--stopwords', type=str, default=None, help='Stopwords to use (e.g. "english").')
     my_parser.add_argument('--max_df', type=type_int_or_float, default=1.0, help='Ignore terms with higher document frequency.')
     my_parser.add_argument('--min_df', type=type_int_or_float, default=1, help='Ignore terms with lower document frequency.')
-    my_parser.add_argument('--keep_numbers', type=bool, action='store_true', help='Keep numbers in the data')
+    my_parser.add_argument('--keep_numbers', action='store_true', help='Keep numbers in the data')
     my_parser.add_argument('--batch_size', type=int, default=32, help='Batch size for generating SBERT embeddings.')
 
 

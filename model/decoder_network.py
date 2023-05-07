@@ -42,7 +42,7 @@ class NetworkConfigs:
         self.entropy_mult = 0.0
         self.topk = [10]
         self.sparse_corpus_bow = None
-        self.pickle_name = 'data/pickles/20newsgroups_mwl3'
+        self.pickle_name = 'data/pickles/20newsgroups_mwl3'  # don't include ".pkl"
         self.get_sparse_corpus_bow()
 
     def get_sparse_corpus_bow(self):

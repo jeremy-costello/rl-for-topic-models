@@ -31,7 +31,7 @@ def main(experiment_name, meta_seed, num_seeds):
         # constant
         'num_gpus': [1],
         'num_cpus': [0],
-        'max_epochs': [1000],
+        'max_epochs': [10],
         'frozen_embeddings': [True],
         # data
         'data_set': ['data/pickles/20newsgroups_mwl3'],

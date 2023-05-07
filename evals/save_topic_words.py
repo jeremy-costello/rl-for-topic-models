@@ -7,6 +7,7 @@ my_parser = argparse.ArgumentParser()
 my_parser.add_argument('topk', type=int, help='Top-k topic words for calculating coherence and diversity.')
 my_parser.add_argument('data', type=str, help='Location of the data pickle file.')
 my_parser.add_argument('plotting_array', type=str, help='Location of the specific experiment plotting array.')
+my_parser.add_argument('--print_topics', action='store_true', help='Whether to print topics.')
 
 args = my_parser.parse_args()
 
@@ -16,8 +17,9 @@ experiment_name = args.plotting_array.rstrip('.pkl').replace('\\', '/')
 
 topics = get_topic_words_from_files(pickle_name, experiment_name, topk)
 
-for topic in topics:
-    print(f'{topic}\n')
+if args.print_topics:
+    for topic in topics:
+        print(f'{topic}\n')
 
 with open('evals/figures/topics.txt', 'w') as f:
     for i, topic in enumerate(topics):

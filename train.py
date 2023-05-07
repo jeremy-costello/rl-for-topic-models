@@ -8,6 +8,8 @@ from data.dataset import get_datapipe
 
 
 def main(pickle_name, use_test_data):
+    pickle_name = pickle_name.rstrip('.pkl').replace('\\', '/')
+
     model_config = ModelConfig()
     assert pickle_name == model_config.pickle_name
     model = Model(model_config)
@@ -40,7 +42,7 @@ if __name__ == '__main__':
     my_parser = argparse.ArgumentParser()
 
     my_parser.add_argument('dataset', type=str, help='Data pickle file to train with.')
-    my_parser.add_argument('--test', type=bool, action='store_true', help='Use a test/validation data subset.')
+    my_parser.add_argument('--test', action='store_true', help='Use a test/validation data subset.')
 
     args = my_parser.parse_args()
 
