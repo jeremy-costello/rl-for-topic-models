@@ -4,6 +4,8 @@
 
 Code accompanying the forthcoming paper "Reinforcement Learning for Topic Models" in the Findings of the Association for Computational Linguistics: ACL 2023.
 
+Preprint: https://arxiv.org/abs/2305.04843
+
 ## Table of Contents
 
 - [Install](#install)
