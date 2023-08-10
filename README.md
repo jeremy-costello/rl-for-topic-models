@@ -63,8 +63,8 @@ pip install -r requirements.txt
 
 #### Contrastive Learning for Neural Topic Model
 - get raw data from https://github.com/nguyentthong/CLNTM
-- put tarball in ```data/raw/clntm```
-- run ```python data/raw/clntm/scholar_untar.py```
+- put zipfile in ```data/raw/clntm```
+- run ```python data/raw/clntm/scholar_unzip.py```
 - run ```python data/dataset.py contrastive```
 
 #### Benchmarking Neural Topic Models
