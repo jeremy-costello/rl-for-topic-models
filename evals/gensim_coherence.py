@@ -27,8 +27,11 @@ experiment_dir = args.experiment.replace('\\', '/')
 dataset_save_dict = get_dataset(data_pickle)
 
 train_docs = [doc.split() for doc in dataset_save_dict["train"]["preprocessed_docs"]]
-test_docs = [doc.split() for doc in dataset_save_dict["test"]["preprocessed_docs"]]
-docs = train_docs + test_docs
+if dataset_save_dict["test"]["preprocessed_docs"] is not None:
+    test_docs = [doc.split() for doc in dataset_save_dict["test"]["preprocessed_docs"]]
+    docs = train_docs + test_docs
+else:
+    docs = train_docs
 
 vocabulary = dataset_save_dict["vocabulary"]
 dictionary = Dictionary()
