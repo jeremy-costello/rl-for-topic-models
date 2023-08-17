@@ -1,6 +1,8 @@
 import pickle
 import argparse
 from tqdm import tqdm
+from gensim.corpora import Dictionary
+from gensim.models.coherencemodel import CoherenceModel
 
 from trainer.utils import get_save_num
 from data.dataset import get_dataset
@@ -37,15 +39,26 @@ dataset_save_dict = get_dataset(data_pickle)
 sparse_corpus_bow = dataset_save_dict['sparse_corpus_bow']
 npmi_coherence = NPMICoherence(sparse_corpus_bow)
 
+train_docs = [doc.split() for doc in dataset_save_dict["train"]["preprocessed_docs"]]
+test_docs = [doc.split() for doc in dataset_save_dict["test"]["preprocessed_docs"]]
+docs = train_docs + test_docs
+
+vocabulary = dataset_save_dict["vocabulary"]
+dictionary = Dictionary()
+dictionary.token2id = vocabulary["token2id"]
+dictionary.id2token = vocabulary["id2token"]
+
 rbo_score = 0
 cohemb_score = 0
 npmicoh_score = 0
+npmicoh_window_score = 0
 diversity_score = 0
 for i, experiment_num in enumerate(range(num_experiments)):
     true_experiment_num = get_save_num(experiment_num)
     experiment_rbo_score = 0
     experiment_cohemb_score = 0
     experiment_npmicoh_score = 0
+    experiment_npmicoh_window_score = 0
     experiment_diversity_score = 0
     for j, seed_num in tqdm(enumerate(range(num_seeds)), total=num_seeds):
         true_seed_num = get_save_num(seed_num)
@@ -69,12 +82,25 @@ for i, experiment_num in enumerate(range(num_experiments)):
         seed_diversity_score = topic_diversity(beta, diverysity_topk)
         experiment_diversity_score = experiment_diversity_score * j / (j + 1) + seed_diversity_score / (j + 1)
 
+        npmi_window_model = CoherenceModel(
+            topics=topics,
+            texts=docs,
+            dictionary=dictionary,
+            coherence="c_npmi",
+            topn=topk
+        )
+
+        seed_npmicoh_window_score = npmi_window_model.get_coherence()
+        experiment_npmicoh_window_score = experiment_npmicoh_window_score * j / (j + 1) + seed_npmicoh_window_score / (j + 1)
+
     rbo_score = rbo_score * i / (i + 1) + experiment_rbo_score / (i + 1)
     cohemb_score = cohemb_score * i / (i + 1) + experiment_cohemb_score / (i + 1)
     npmicoh_score = npmicoh_score * i / (i + 1) + experiment_npmicoh_score / (i + 1)
+    npmicoh_window_score = npmicoh_window_score * i / (i + 1) + experiment_npmicoh_window_score / (i + 1)
     diversity_score = diversity_score * i / (i + 1) + experiment_diversity_score / (i + 1)
 
 print(f'RBO: {rbo_score}\n')
 print(f'Word2Vec Coherence: {cohemb_score}\n')
-print(f'NPMI Coherence: {npmicoh_score}\n')
+print(f'NPMI Coherence (full document): {npmicoh_score}\n')
+print(f'NPMI Coherence (window=10): {npmicoh_window_score}\n')
 print(f'Diversity: {diversity_score}\n')
